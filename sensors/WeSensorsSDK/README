@@ -1,0 +1,50 @@
+Würth Elektronik Sensors SDK
+############################
+
+Origin:
+   WE Sensors SDK for STM32
+   https://github.com/WurthElektronik/Sensors-SDK_STM32
+
+Status:
+   Version v2.2
+
+Purpose:
+   Drivers for sensors by Würth Elektronik
+
+Description:
+   This package is an extract of the Sensors SDK for STM32 provided by Würth
+   Elektronik (examples and platform-specific files have been removed).
+   
+   It contains standard drivers for WE sensors, offering a common, easy-to-use
+   interface for all sensor functions.
+
+   The driver is platform-independent, you only need to provide the following
+   low-level read and write functions:
+   
+   /* Read a register's content */
+   extern int8_t WE_ReadReg(WE_sensorInterface_t *interface, uint8_t regAdr,
+                            uint16_t numBytesToRead, uint8_t *data);
+
+   /* Write a register's content */
+   extern int8_t WE_WriteReg(WE_sensorInterface_t *interface, uint8_t regAdr,
+                             uint16_t numBytesToWrite, uint8_t *data);
+
+   The functions need to be declared in a header file called "weplatform.h".
+
+Dependencies:
+   None.
+
+URL:
+   https://www.we-online.com/web/en/electronic_components/produkte_pb/service_pbs/wco/software/sensors_sdk.php
+
+commit:
+   Version v2.2
+
+Maintained-by:
+   Würth Elektronik eiSos GmbH & Co. KG
+
+License:
+   Apache-2.0
+
+License Link:
+   https://opensource.org/licenses/Apache-2.0
