@@ -6,7 +6,7 @@ Origin:
    https://github.com/WurthElektronik/Sensors-SDK_STM32
 
 Status:
-   Version v2.2
+   Version v2.5
 
 Purpose:
    Drivers for sensors by Würth Elektronik
@@ -38,7 +38,7 @@ URL:
    https://www.we-online.com/web/en/electronic_components/produkte_pb/service_pbs/wco/software/sensors_sdk.php
 
 commit:
-   Version v2.2
+   Version v2.5
 
 Maintained-by:
    Würth Elektronik eiSos GmbH & Co. KG

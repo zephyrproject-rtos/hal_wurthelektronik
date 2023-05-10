@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Würth Elektronik eiSos GmbH & Co. KG
+# Copyright (c) 2023 Würth Elektronik eiSos GmbH & Co. KG
 # SPDX-License-Identifier: Apache-2.0
 
 zephyr_include_directories(
@@ -18,6 +18,15 @@ if(CONFIG_WSEN_HIDS)
   )
   zephyr_library_sources(
     WeSensorsSDK/WSEN_HIDS_2523020210001/WSEN_HIDS_2523020210001.c
+  )
+endif()
+
+if(CONFIG_WSEN_ISDS)
+  zephyr_include_directories(
+    WeSensorsSDK/WSEN_ISDS_2536030320001
+  )
+  zephyr_library_sources(
+    WeSensorsSDK/WSEN_ISDS_2536030320001/WSEN_ISDS_2536030320001.c
   )
 endif()
 

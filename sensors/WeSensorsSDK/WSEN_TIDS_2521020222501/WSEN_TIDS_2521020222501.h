@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Wuerth Elektronik eiSos GmbH & Co. KG
+ * Copyright (c) 2023 Wuerth Elektronik eiSos GmbH & Co. KG
  *
  * SPDX-License-Identifier: Apache-2.0
  */

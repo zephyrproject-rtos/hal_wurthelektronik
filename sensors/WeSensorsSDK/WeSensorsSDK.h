@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Wuerth Elektronik eiSos GmbH & Co. KG
+ * Copyright (c) 2023 Wuerth Elektronik eiSos GmbH & Co. KG
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,7 +21,7 @@
 /**
  * @brief SDK minor version number.
  */
-#define WE_SENSOR_SDK_MINOR_VERSION  2
+#define WE_SENSOR_SDK_MINOR_VERSION  5
 
 /**
  * @brief Return code for successful operations.
@@ -43,6 +43,7 @@ typedef enum
   WE_TIDS,  /* Temperature sensor */
   WE_PADS,  /* Absolute pressure sensor */
   WE_PDUS,  /* Differential pressure sensor */
+  WE_ISDS,  /* 3D accelerometer and 3D gyroscope */
   WE_SENSOR_TYPE_MAX
 } WE_sensorType_t;
 

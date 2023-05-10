@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Wuerth Elektronik eiSos GmbH & Co. KG
+ * Copyright (c) 2023 Wuerth Elektronik eiSos GmbH & Co. KG
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -2121,5 +2121,5 @@ float PADS_convertPressure_float(int32_t rawPres)
  */
 float PADS_convertDifferentialPressure_float(int32_t rawPres)
 {
-  return ((float) rawPres) * 0.00625;
+  return ((float) rawPres) * 0.00625f;
 }
