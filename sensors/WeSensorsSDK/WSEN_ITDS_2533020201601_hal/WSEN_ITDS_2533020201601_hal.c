@@ -6,10 +6,10 @@
 
 /**
  * @file
- * @brief Driver file for the WSEN-ITDS sensor.
+ * @brief Driver file for the WSEN-ITDS-2533020201601 sensor.
  */
 
-#include "WSEN_ITDS_2533020201601.h"
+#include "WSEN_ITDS_2533020201601_hal.h"
 
 #include <stdio.h>
 
@@ -21,7 +21,7 @@
 static WE_sensorInterface_t itdsDefaultSensorInterface = {
     .sensorType = WE_ITDS,
     .interfaceType = WE_i2c,
-    .options = {.i2c = {.address = ITDS_ADDRESS_I2C_1, .burstMode = 0, .slaveTransmitterMode = 0, .useRegAddrMsbForMultiBytesRead = 0, .reserved = 0},
+    .options = {.i2c = {.address = ITDS_ADDRESS_I2C_1, .burstMode = 0, .protocol = WE_i2cProtocol_RegisterBased, .useRegAddrMsbForMultiBytesRead = 0, .reserved = 0},
                 .spi = {.chipSelectPort = 0, .chipSelectPin = 0, .burstMode = 0, .reserved = 0},
                 .readTimeout = 1000,
                 .writeTimeout = 1000},
@@ -1772,6 +1772,10 @@ int8_t ITDS_getRawAccelerations(WE_sensorInterface_t* sensorInterface,
   return WE_SUCCESS;
 }
 
+
+
+#ifdef WE_USE_FLOAT
+
 /**
  * @brief Reads the X axis acceleration in [mg].
  *
@@ -2001,6 +2005,8 @@ float ITDS_convertAccelerationFs16g_float(int16_t acc)
 {
   return ((float) acc) * 0.488f;
 }
+#endif /* WE_USE_FLOAT */
+
 
 /**
  * @brief Reads the X axis acceleration in [mg].
@@ -2247,6 +2253,8 @@ int8_t  ITDS_getRawTemperature12bit(WE_sensorInterface_t* sensorInterface, int16
   return WE_SUCCESS;
 }
 
+#ifdef WE_USE_FLOAT
+
 /**
  * @brief Read the 12 bit temperature in °C
  * @param[in] sensorInterface Pointer to sensor interface
@@ -2266,6 +2274,9 @@ int8_t  ITDS_getTemperature12bit(WE_sensorInterface_t* sensorInterface, float *t
   }
   return WE_SUCCESS;
 }
+
+#endif /* WE_USE_FLOAT */
+
 
 /* FIFO_CTRL (0x2E) */
 

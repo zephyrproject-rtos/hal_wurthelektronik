@@ -6,10 +6,10 @@
 
 /**
  * @file
- * @brief Driver file for the WSEN-TIDS sensor.
+ * @brief Driver file for the WSEN-TIDS-2521020222501 sensor.
  */
 
-#include "WSEN_TIDS_2521020222501.h"
+#include "WSEN_TIDS_2521020222501_hal.h"
 
 #include <stdio.h>
 
@@ -21,7 +21,7 @@
 static WE_sensorInterface_t tidsDefaultSensorInterface = {
     .sensorType = WE_TIDS,
     .interfaceType = WE_i2c,
-    .options = {.i2c = {.address = TIDS_ADDRESS_I2C_1, .burstMode = 0, .slaveTransmitterMode = 0, .useRegAddrMsbForMultiBytesRead = 0, .reserved = 0},
+    .options = {.i2c = {.address = TIDS_ADDRESS_I2C_1, .burstMode = 0, .protocol = WE_i2cProtocol_RegisterBased, .useRegAddrMsbForMultiBytesRead = 0, .reserved = 0},
                 .spi = {.chipSelectPort = 0, .chipSelectPin = 0, .burstMode = 0, .reserved = 0},
                 .readTimeout = 1000,
                 .writeTimeout = 1000},
@@ -467,6 +467,8 @@ int8_t TIDS_getRawTemperature(WE_sensorInterface_t* sensorInterface, int16_t *ra
   return WE_SUCCESS;
 }
 
+#ifdef WE_USE_FLOAT
+
 /**
  * @brief Read the measured temperature value in °C
  * @param[in] sensorInterface Pointer to sensor interface
@@ -485,3 +487,5 @@ int8_t TIDS_getTemperature(WE_sensorInterface_t* sensorInterface, float *tempDeg
   *tempDegC = *tempDegC / 100;
   return WE_SUCCESS;
 }
+
+#endif /* WE_USE_FLOAT */

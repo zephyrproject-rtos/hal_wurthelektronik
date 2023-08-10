@@ -6,17 +6,17 @@
 
 /**
  * @file
- * @brief Header file for the WSEN-ISDS sensor driver.
+ * @brief Header file for the WSEN-ISDS-2536030320001 sensor driver.
  */
 
-#ifndef _WSEN_ISDS_H
-#define _WSEN_ISDS_H
+#ifndef _WSEN_ISDS_2536030320001_H
+#define _WSEN_ISDS_2536030320001_H
 
 /*         Includes         */
 
 #include <stdint.h>
 
-#include <WeSensorsSDK.h>
+#include "../WeSensorsSDK.h"
 
 
 /*         ISDS 2536030320001 DEVICE_ID         */
@@ -1116,6 +1116,7 @@ extern "C"
   int8_t ISDS_isAccelerationDataReady(WE_sensorInterface_t* sensorInterface, ISDS_state_t *dataReady);
   int8_t ISDS_isGyroscopeDataReady(WE_sensorInterface_t* sensorInterface, ISDS_state_t *dataReady);
   int8_t ISDS_isTemperatureDataReady(WE_sensorInterface_t* sensorInterface, ISDS_state_t *dataReady);
+  int8_t ISDS_isDataReady(WE_sensorInterface_t* sensorInterface, ISDS_state_t *temp_state, ISDS_state_t *acc_state, ISDS_state_t *gyro_state);
 
   /* ISDS_FIFO_STATUS_#_REG */
   int8_t ISDS_getFifoStatus(WE_sensorInterface_t* sensorInterface, ISDS_fifoStatus2_t *status, uint16_t *fillLevel, uint16_t *fifoPattern);
@@ -1225,10 +1226,14 @@ extern "C"
   int8_t ISDS_getFifoData(WE_sensorInterface_t* sensorInterface, uint16_t numSamples, uint16_t *fifoData);
 
   /* Gyroscope output */
+#ifdef WE_USE_FLOAT
   int8_t ISDS_getAngularRateX_float(WE_sensorInterface_t* sensorInterface, float *xRate);
   int8_t ISDS_getAngularRateY_float(WE_sensorInterface_t* sensorInterface, float *yRate);
   int8_t ISDS_getAngularRateZ_float(WE_sensorInterface_t* sensorInterface, float *zRate);
   int8_t ISDS_getAngularRates_float(WE_sensorInterface_t* sensorInterface, float *xRate, float *yRate, float *zRate);
+#else
+  #warning "WSEN_ISDS sensor driver: Float support is turned off by default. Define WE_USE_FLOAT to enable float support."
+#endif /* WE_USE_FLOAT */
   int8_t ISDS_getAngularRateX_int(WE_sensorInterface_t* sensorInterface, int32_t *xRate);
   int8_t ISDS_getAngularRateY_int(WE_sensorInterface_t* sensorInterface, int32_t *yRate);
   int8_t ISDS_getAngularRateZ_int(WE_sensorInterface_t* sensorInterface, int32_t *zRate);
@@ -1239,10 +1244,12 @@ extern "C"
   int8_t ISDS_getRawAngularRates(WE_sensorInterface_t* sensorInterface, int16_t *xRawRate, int16_t *yRawRate, int16_t *zRawRate);
 
   /* Accelerometer output */
+#ifdef WE_USE_FLOAT
   int8_t ISDS_getAccelerationX_float(WE_sensorInterface_t* sensorInterface, float *xAcc);
   int8_t ISDS_getAccelerationY_float(WE_sensorInterface_t* sensorInterface, float *yAcc);
   int8_t ISDS_getAccelerationZ_float(WE_sensorInterface_t* sensorInterface, float *zAcc);
   int8_t ISDS_getAccelerations_float(WE_sensorInterface_t* sensorInterface, float *xAcc, float *yAcc, float *zAcc);
+#endif /* WE_USE_FLOAT */
   int8_t ISDS_getAccelerationX_int(WE_sensorInterface_t* sensorInterface, int16_t *xAcc);
   int8_t ISDS_getAccelerationY_int(WE_sensorInterface_t* sensorInterface, int16_t *yAcc);
   int8_t ISDS_getAccelerationZ_int(WE_sensorInterface_t* sensorInterface, int16_t *zAcc);
@@ -1253,10 +1260,14 @@ extern "C"
   int8_t ISDS_getRawAccelerations(WE_sensorInterface_t* sensorInterface, int16_t *xRawAcc, int16_t *yRawAcc, int16_t *zRawAcc);
 
   /* Temperature sensor output */
+#ifdef WE_USE_FLOAT
   int8_t ISDS_getTemperature_float(WE_sensorInterface_t* sensorInterface, float *temperature);
+#endif /* WE_USE_FLOAT */
   int8_t ISDS_getTemperature_int(WE_sensorInterface_t* sensorInterface, int16_t *temperature);
   int8_t ISDS_getRawTemperature(WE_sensorInterface_t* sensorInterface, int16_t *temperature);
 
+
+#ifdef WE_USE_FLOAT
   float ISDS_convertAcceleration_float(int16_t acc, ISDS_accFullScale_t fullScale);
   float ISDS_convertAccelerationFs2g_float(int16_t acc);
   float ISDS_convertAccelerationFs4g_float(int16_t acc);
@@ -1271,6 +1282,7 @@ extern "C"
   float ISDS_convertAngularRateFs2000dps_float(int16_t rate);
 
   float ISDS_convertTemperature_float(int16_t temperature);
+#endif /* WE_USE_FLOAT */
 
   int16_t ISDS_convertAcceleration_int(int16_t acc, ISDS_accFullScale_t fullScale);
   int16_t ISDS_convertAccelerationFs2g_int(int16_t acc);

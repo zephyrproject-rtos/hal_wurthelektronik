@@ -12,56 +12,57 @@ zephyr_library_sources(
   weplatform_spi.c
 )
 
-if(CONFIG_WSEN_HIDS)
+if(CONFIG_WSEN_HIDS_2525020210001)
   zephyr_include_directories(
-    WeSensorsSDK/WSEN_HIDS_2523020210001
+    WeSensorsSDK/WSEN_HIDS_2525020210001_hal
   )
   zephyr_library_sources(
-    WeSensorsSDK/WSEN_HIDS_2523020210001/WSEN_HIDS_2523020210001.c
+    WeSensorsSDK/WSEN_HIDS_2525020210001_hal/WSEN_HIDS_2525020210001_hal.c
   )
 endif()
 
-if(CONFIG_WSEN_ISDS)
+
+if(CONFIG_WSEN_HIDS_2525020210002)
   zephyr_include_directories(
-    WeSensorsSDK/WSEN_ISDS_2536030320001
+    WeSensorsSDK/WSEN_HIDS_2525020210002_hal
   )
   zephyr_library_sources(
-    WeSensorsSDK/WSEN_ISDS_2536030320001/WSEN_ISDS_2536030320001.c
+    WeSensorsSDK/WSEN_HIDS_2525020210002_hal/WSEN_HIDS_2525020210002_hal.c
   )
 endif()
 
-if(CONFIG_WSEN_ITDS)
+if(CONFIG_WSEN_ITDS_2533020201601)
   zephyr_include_directories(
-    WeSensorsSDK/WSEN_ITDS_2533020201601
+    WeSensorsSDK/WSEN_ITDS_2533020201601_hal
   )
   zephyr_library_sources(
-    WeSensorsSDK/WSEN_ITDS_2533020201601/WSEN_ITDS_2533020201601.c
+    WeSensorsSDK/WSEN_ITDS_2533020201601_hal/WSEN_ITDS_2533020201601_hal.c
   )
 endif()
 
-if(CONFIG_WSEN_PADS)
+if(CONFIG_WSEN_PADS_2511020213301)
   zephyr_include_directories(
-    WeSensorsSDK/WSEN_PADS_2511020213301
+    WeSensorsSDK/WSEN_PADS_2511020213301_hal
   )
   zephyr_library_sources(
-    WeSensorsSDK/WSEN_PADS_2511020213301/WSEN_PADS_2511020213301.c
+    WeSensorsSDK/WSEN_PADS_2511020213301_hal/WSEN_PADS_2511020213301_hal.c
   )
 endif()
 
-if(CONFIG_WSEN_PDUS)
+if(CONFIG_WSEN_PDUS_25131308XXX01)
   zephyr_include_directories(
-    WeSensorsSDK/WSEN_PDUS_25131308XXX01
+    WeSensorsSDK/WSEN_PDUS_25131308XXX01_hal
   )
   zephyr_library_sources(
-    WeSensorsSDK/WSEN_PDUS_25131308XXX01/WSEN_PDUS_25131308XXX01.c
+    WeSensorsSDK/WSEN_PDUS_25131308XXX01_hal/WSEN_PDUS_25131308XXX01_hal.c
   )
 endif()
 
-if(CONFIG_WSEN_TIDS)
+if(CONFIG_WSEN_TIDS_2521020222501)
   zephyr_include_directories(
-    WeSensorsSDK/WSEN_TIDS_2521020222501
+    WeSensorsSDK/WSEN_TIDS_2521020222501_hal
   )
   zephyr_library_sources(
-    WeSensorsSDK/WSEN_TIDS_2521020222501/WSEN_TIDS_2521020222501.c
+    WeSensorsSDK/WSEN_TIDS_2521020222501_hal/WSEN_TIDS_2521020222501_hal.c
   )
 endif()

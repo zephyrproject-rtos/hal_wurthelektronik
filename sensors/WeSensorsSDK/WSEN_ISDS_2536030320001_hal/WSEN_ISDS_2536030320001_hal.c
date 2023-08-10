@@ -6,10 +6,10 @@
 
 /**
  * @file
- * @brief Driver file for the WSEN-ISDS sensor.
+ * @brief Driver file for the WSEN-ISDS-2536030320001 sensor.
  */
 
-#include "WSEN_ISDS_2536030320001.h"
+#include "WSEN_ISDS_2536030320001_hal.h"
 
 #include <stdio.h>
 
@@ -21,7 +21,7 @@
 static WE_sensorInterface_t isdsDefaultSensorInterface = {
     .sensorType = WE_ISDS,
     .interfaceType = WE_i2c,
-    .options = {.i2c = {.address = ISDS_ADDRESS_I2C_0, .burstMode = 0, .slaveTransmitterMode = 0, .useRegAddrMsbForMultiBytesRead = 0, .reserved = 0},
+    .options = {.i2c = {.address = ISDS_ADDRESS_I2C_0, .burstMode = 0, .protocol = WE_i2cProtocol_RegisterBased, .useRegAddrMsbForMultiBytesRead = 0, .reserved = 0},
                 .spi = {.chipSelectPort = 0, .chipSelectPin = 0, .burstMode = 0, .reserved = 0},
                 .readTimeout = 1000,
                 .writeTimeout = 1000},
@@ -3420,6 +3420,39 @@ int8_t ISDS_isTemperatureDataReady(WE_sensorInterface_t* sensorInterface, ISDS_s
   return WE_SUCCESS;
 }
 
+/**
+ * @brief Check if new temperature, gyroscope and acceleration samples are available
+ * @param[in] sensorInterface Pointer to sensor interface
+ * @param[out] temp_state The returned data-ready state for the temperature
+ * @param[out] acc_state The returned data-ready state for the acceleration
+ * @param[out] gyro_state The returned data-ready state for the gyroscope
+ * @retval Error code
+ */
+int8_t ISDS_isDataReady(WE_sensorInterface_t* sensorInterface, ISDS_state_t *temp_state, ISDS_state_t *acc_state, ISDS_state_t *gyro_state)
+{
+  ISDS_status_t statusRegister;
+
+  if (WE_FAIL == ISDS_ReadReg(sensorInterface, ISDS_STATUS_REG, 1, (uint8_t *) &statusRegister))
+  {
+    return WE_FAIL;
+  }
+
+  if(temp_state != NULL)
+  {
+	  *temp_state = (ISDS_state_t) statusRegister.tempDataReady;
+  }
+  if(acc_state != NULL)
+  {
+	  *acc_state = (ISDS_state_t) statusRegister.accDataReady;
+  }
+  if(gyro_state != NULL)
+  {
+	  *gyro_state = (ISDS_state_t) statusRegister.gyroDataReady;
+  }
+
+  return WE_SUCCESS;
+}
+
 
 /* ISDS_FIFO_STATUS_1_REG */
 /* ISDS_FIFO_STATUS_2_REG */
@@ -5072,6 +5105,7 @@ int8_t ISDS_getFifoData(WE_sensorInterface_t* sensorInterface, uint16_t numSampl
 }
 
 
+#ifdef WE_USE_FLOAT
 /**
  * @brief Reads the X-axis angular rate in [mdps]
  *
@@ -5167,6 +5201,7 @@ int8_t ISDS_getAngularRates_float(WE_sensorInterface_t* sensorInterface, float *
   *zRate = ISDS_convertAngularRate_float(zRawRate, currentGyroFullScale);
   return WE_SUCCESS;
 }
+#endif /* WE_USE_FLOAT */
 
 /**
  * @brief Reads the X-axis angular rate in [mdps]
@@ -5356,6 +5391,7 @@ int8_t ISDS_getRawAngularRates(WE_sensorInterface_t* sensorInterface, int16_t *x
   return WE_SUCCESS;
 }
 
+#ifdef WE_USE_FLOAT
 /**
  * @brief Read the X-axis acceleration in [mg]
  *
@@ -5451,6 +5487,7 @@ int8_t ISDS_getAccelerations_float(WE_sensorInterface_t* sensorInterface, float 
   *zAcc = ISDS_convertAcceleration_float(zRawAcc, currentAccFullScale);
   return WE_SUCCESS;
 }
+#endif /* WE_USE_FLOAT */
 
 /**
  * @brief Read the X-axis acceleration in [mg]
@@ -5640,6 +5677,8 @@ int8_t ISDS_getRawAccelerations(WE_sensorInterface_t* sensorInterface, int16_t *
   return WE_SUCCESS;
 }
 
+#ifdef WE_USE_FLOAT
+
 /**
  * @brief Read the temperature in [°C]
  * @param[in] sensorInterface Pointer to sensor interface
@@ -5674,6 +5713,8 @@ int8_t ISDS_getTemperature_int(WE_sensorInterface_t* sensorInterface, int16_t *t
   return WE_SUCCESS;
 }
 
+#endif /* WE_USE_FLOAT */
+
 /**
  * @brief Read the raw temperature
  *
@@ -5698,6 +5739,8 @@ int8_t ISDS_getRawTemperature(WE_sensorInterface_t* sensorInterface, int16_t *te
   return WE_SUCCESS;
 }
 
+
+#ifdef WE_USE_FLOAT
 /**
  * @brief Converts the supplied raw acceleration into [mg]
  * @param[in] acc Raw acceleration value (accelerometer output)
@@ -5720,6 +5763,7 @@ float ISDS_convertAcceleration_float(int16_t acc, ISDS_accFullScale_t fullScale)
   case ISDS_accFullScaleEightG:
     return ISDS_convertAccelerationFs8g_float(acc);
 
+  case ISDS_accFullScaleInvalid:
   default:
     return 0;
   }
@@ -5863,6 +5907,8 @@ float ISDS_convertTemperature_float(int16_t temperature)
 {
   return ((((float) temperature) / 256.0f) + 25.0f);
 }
+#endif /* WE_USE_FLOAT */
+
 
 /**
  * @brief Converts the supplied raw acceleration into [mg]
@@ -5886,6 +5932,7 @@ int16_t ISDS_convertAcceleration_int(int16_t acc, ISDS_accFullScale_t fullScale)
   case ISDS_accFullScaleEightG:
     return ISDS_convertAccelerationFs8g_int(acc);
 
+  case ISDS_accFullScaleInvalid:
   default:
     return 0;
   }

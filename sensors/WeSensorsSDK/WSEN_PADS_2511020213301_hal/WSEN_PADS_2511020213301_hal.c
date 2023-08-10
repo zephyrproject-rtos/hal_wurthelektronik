@@ -6,10 +6,10 @@
 
 /**
  * @file
- * @brief Driver file for the WSEN-PADS sensor.
+ * @brief Driver file for the WSEN-PADS-2511020213301 sensor.
  */
 
-#include "WSEN_PADS_2511020213301.h"
+#include "WSEN_PADS_2511020213301_hal.h"
 
 #include <stdio.h>
 
@@ -21,7 +21,7 @@
 static WE_sensorInterface_t padsDefaultSensorInterface = {
     .sensorType = WE_PADS,
     .interfaceType = WE_i2c,
-    .options = {.i2c = {.address = PADS_ADDRESS_I2C_1, .burstMode = 0, .slaveTransmitterMode = 0, .useRegAddrMsbForMultiBytesRead = 0, .reserved = 0},
+    .options = {.i2c = {.address = PADS_ADDRESS_I2C_1, .burstMode = 0, .protocol = WE_i2cProtocol_RegisterBased, .useRegAddrMsbForMultiBytesRead = 0, .reserved = 0},
                 .spi = {.chipSelectPort = 0, .chipSelectPin = 0, .burstMode = 0, .reserved = 0},
                 .readTimeout = 1000,
                 .writeTimeout = 1000},
@@ -1702,6 +1702,34 @@ int8_t PADS_isTemperatureDataAvailable(WE_sensorInterface_t* sensorInterface, PA
 }
 
 /**
+ * @brief Check if new temperature  and pressure data is available
+ * @param[in] sensorInterface Pointer to sensor interface
+ * @param[out] temp_state The returned temperature data availability state
+ * @param[out] press_state The returned pressure data availability state
+ * @retval Error code
+ */
+int8_t PADS_isDataAvailable(WE_sensorInterface_t* sensorInterface, PADS_state_t *temp_state, PADS_state_t *press_state)
+{
+  PADS_status_t statusReg;
+
+  if (WE_FAIL == PADS_ReadReg(sensorInterface, PADS_STATUS_REG, 1, (uint8_t *) &statusReg))
+  {
+    return WE_FAIL;
+  }
+
+  if(temp_state != NULL)
+  {
+	  *temp_state = (PADS_state_t) statusReg.tempDataAvailable;
+  }
+  if(press_state != NULL)
+  {
+	  *press_state = (PADS_state_t) statusReg.presDataAvailable;
+  }
+
+  return WE_SUCCESS;
+}
+
+/**
  * @brief Read the raw measured pressure value
  * @param[in] sensorInterface Pointer to sensor interface
  * @param[out] rawPres The returned raw pressure
@@ -1984,6 +2012,8 @@ int32_t PADS_convertDifferentialPressure_int(int32_t rawPres)
   return (rawPres * 25600) / 4096;
 }
 
+#ifdef WE_USE_FLOAT
+
 /**
  * @brief Read the measured pressure value in kPa
  *
@@ -2123,3 +2153,5 @@ float PADS_convertDifferentialPressure_float(int32_t rawPres)
 {
   return ((float) rawPres) * 0.00625f;
 }
+
+#endif /* WE_USE_FLOAT */

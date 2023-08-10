@@ -6,17 +6,17 @@
 
 /**
  * @file
- * @brief Header file for the WSEN-ITDS sensor driver.
+ * @brief Header file for the WSEN-ITDS-2533020201601 sensor driver.
  */
 
-#ifndef _WSEN_ITDS_H
-#define _WSEN_ITDS_H
+#ifndef _WSEN_ITDS_2533020201601_H
+#define _WSEN_ITDS_2533020201601_H
 
 /*         Includes         */
 
 #include <stdint.h>
 
-#include <WeSensorsSDK.h>
+#include "../WeSensorsSDK.h"
 
 
 /*         ITDS 2533020201601 DEVICE_ID         */
@@ -784,6 +784,8 @@ extern "C"
                                   int16_t *yRawAcc,
                                   int16_t *zRawAcc);
 
+
+#ifdef WE_USE_FLOAT
   int8_t ITDS_getAccelerationX_float(WE_sensorInterface_t* sensorInterface, float *xAcc);
   int8_t ITDS_getAccelerationY_float(WE_sensorInterface_t* sensorInterface, float *yAcc);
   int8_t ITDS_getAccelerationZ_float(WE_sensorInterface_t* sensorInterface, float *zAcc);
@@ -797,6 +799,9 @@ extern "C"
   float ITDS_convertAccelerationFs4g_float(int16_t acc);
   float ITDS_convertAccelerationFs8g_float(int16_t acc);
   float ITDS_convertAccelerationFs16g_float(int16_t acc);
+#else
+  #warning "WSEN_ITDS sensor driver: Float support is turned off by default. Define WE_USE_FLOAT to enable float support."
+#endif /* WE_USE_FLOAT */
 
   int8_t ITDS_getAccelerationX_int(WE_sensorInterface_t* sensorInterface, int16_t *xAcc);
   int8_t ITDS_getAccelerationY_int(WE_sensorInterface_t* sensorInterface, int16_t *yAcc);
@@ -815,7 +820,9 @@ extern "C"
   /* Temperature output */
   int8_t ITDS_getTemperature8bit(WE_sensorInterface_t* sensorInterface, uint8_t *temp8bit);
   int8_t ITDS_getRawTemperature12bit(WE_sensorInterface_t* sensorInterface, int16_t *temp12bit);
+#ifdef WE_USE_FLOAT
   int8_t ITDS_getTemperature12bit(WE_sensorInterface_t* sensorInterface, float *tempDegC);
+#endif /* WE_USE_FLOAT */
 
   /* FIFO CTRL */
   int8_t ITDS_setFifoMode(WE_sensorInterface_t* sensorInterface, ITDS_FifoMode_t fifoMode);
