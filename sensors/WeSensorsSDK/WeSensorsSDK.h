@@ -21,7 +21,7 @@
 /**
  * @brief SDK minor version number.
  */
-#define WE_SENSOR_SDK_MINOR_VERSION  5
+#define WE_SENSOR_SDK_MINOR_VERSION  6
 
 /**
  * @brief Return code for successful operations.
@@ -57,6 +57,21 @@ typedef enum
   WE_spi
 } WE_sensorInterfaceType_t;
 
+/**
+ * @brief Protocols for I2C interface.
+ */
+typedef enum
+{
+	/**
+	* @brief I2C protocol where you need to specify which register you are writing to or reading from.
+	*/
+	WE_i2cProtocol_RegisterBased = 0x0,
+
+	/**
+	* @brief I2C protocol to deal with raw data.
+	*/
+	WE_i2cProtocol_Raw = 0x1
+} WE_i2cProtocol_t;
 
 /**
  * @brief Options for I2C interface.
@@ -74,11 +89,9 @@ typedef struct
   uint8_t burstMode : 1;
 
   /**
-   * @brief Enables slave-transmitter mode (i.e. read-only, polling mode IO operation).
-   * In this mode, no register addresses are used.
-   * Data is polled from the sensor by sending the I2C address and read bit.
+   * @brief Selects the I2C protocol used for reading and writing.
    */
-  uint8_t slaveTransmitterMode : 1;
+  WE_i2cProtocol_t protocol : 1;
 
   /**
    * @brief Enables usage of most significant bit of I2C register address to enable 

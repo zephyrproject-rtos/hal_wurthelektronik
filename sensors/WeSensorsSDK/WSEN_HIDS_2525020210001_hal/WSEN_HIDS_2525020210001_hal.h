@@ -6,20 +6,20 @@
 
 /**
  * @file
- * @brief Header file for the WSEN-HIDS sensor driver.
+ * @brief Header file for the WSEN-HIDS-2525020210001 sensor driver.
  */
 
-#ifndef _WSEN_HIDS_H
-#define _WSEN_HIDS_H
+#ifndef _WSEN_HIDS_2525020210001_H
+#define _WSEN_HIDS_2525020210001_H
 
 /*         Includes         */
 
 #include <stdint.h>
 
-#include <WeSensorsSDK.h>
+#include "../WeSensorsSDK.h"
 
 
-/*         HIDS 2511020213301 DEVICE_ID         */
+/*         HIDS 2525020210001 DEVICE_ID         */
 
 #define HIDS_DEVICE_ID_VALUE    0xBC    /**< Device ID of HIDS Sensor */
 
@@ -276,18 +276,24 @@ extern "C"
   int8_t HIDS_setInterruptActiveLevel(WE_sensorInterface_t* sensorInterface, HIDS_interruptActiveLevel_t level);
   int8_t HIDS_getInterruptActiveLevel(WE_sensorInterface_t* sensorInterface, HIDS_interruptActiveLevel_t *level);
 
-  int8_t HIDS_isHumidityDataAvailable(WE_sensorInterface_t* sensorInterface, HIDS_state_t *state);
   int8_t HIDS_isTemperatureDataAvailable(WE_sensorInterface_t* sensorInterface, HIDS_state_t *state);
+  int8_t HIDS_isHumidityDataAvailable(WE_sensorInterface_t* sensorInterface, HIDS_state_t *state);
+  int8_t HIDS_isDataAvailable(WE_sensorInterface_t* sensorInterface, HIDS_state_t *temp_state, HIDS_state_t *hum_state);
+
 
   int8_t HIDS_getRawHumidity(WE_sensorInterface_t* sensorInterface, int16_t *rawHumidity);
   int8_t HIDS_getRawTemperature(WE_sensorInterface_t* sensorInterface, int16_t *rawTemp);
   int8_t HIDS_getRawValues(WE_sensorInterface_t* sensorInterface, int16_t *rawHumidity, int16_t *rawTemp);
 
+#ifdef WE_USE_FLOAT
   int8_t HIDS_getHumidity_float(WE_sensorInterface_t* sensorInterface, float *humidity);
   int8_t HIDS_getTemperature_float(WE_sensorInterface_t* sensorInterface, float *tempDegC);
 
   int8_t HIDS_convertHumidity_float(WE_sensorInterface_t* sensorInterface, int16_t rawHumidity, float *humidity);
   int8_t HIDS_convertTemperature_float(WE_sensorInterface_t* sensorInterface, int16_t rawTemp, float *tempDegC);
+#else
+  #warning "WSEN_HIDS sensor driver: Float support is turned off by default. Define WE_USE_FLOAT to enable float support."
+#endif /* WE_USE_FLOAT */
 
   int8_t HIDS_getHumidity_int8(WE_sensorInterface_t* sensorInterface, int8_t *humidity);
   int8_t HIDS_getTemperature_int8(WE_sensorInterface_t* sensorInterface, int8_t *tempDegC);

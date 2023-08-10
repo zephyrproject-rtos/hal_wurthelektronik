@@ -33,10 +33,19 @@ inline int8_t WE_ReadReg_I2C(WE_sensorInterface_t *interface, uint8_t regAdr,
 		 */
 		WRITE_BIT(regAdr, 7, 1);
 	}
-	if (interface->options.i2c.slaveTransmitterMode) {
-		status = i2c_read_dt(interface->handle, data, numBytesToRead);
-	} else {
-		status = i2c_burst_read_dt(interface->handle, regAdr, data, numBytesToRead);
+	switch(interface->options.i2c.protocol){
+		case WE_i2cProtocol_RegisterBased:{
+			status = i2c_burst_read_dt(interface->handle, regAdr, data, numBytesToRead);
+			break;
+		}
+		case WE_i2cProtocol_Raw:{
+			status = i2c_read_dt(interface->handle, data, numBytesToRead);
+			break;
+		}
+		default:{
+			status = WE_FAIL;
+			break;
+		}
 	}
 #else
 	status = -EIO;
@@ -59,7 +68,20 @@ inline int8_t WE_WriteReg_I2C(WE_sensorInterface_t *interface, uint8_t regAdr,
 	int status = 0;
 
 #ifdef CONFIG_I2C
-	status = i2c_burst_write_dt(interface->handle, regAdr, data, numBytesToWrite);
+	switch(interface->options.i2c.protocol){
+		case WE_i2cProtocol_RegisterBased:{
+			status = i2c_burst_write_dt(interface->handle, regAdr, data, numBytesToWrite);
+			break;
+		}
+		case WE_i2cProtocol_Raw:{
+			status = i2c_write_dt(interface->handle, data, numBytesToWrite);
+			break;
+		}
+		default:{
+			status = WE_FAIL;
+			break;
+		}
+	}
 #else
 	status = -EIO;
 #endif /* CONFIG_I2C */

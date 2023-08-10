@@ -12,14 +12,14 @@
  * This sensor only has a I2C communication interface.
  */
 
-#ifndef _WSEN_TIDS_H
-#define _WSEN_TIDS_H
+#ifndef _WSEN_TIDS_2521020222501_H
+#define _WSEN_TIDS_2521020222501_H
 
 /*         Includes         */
 
 #include <stdint.h>
 
-#include <WeSensorsSDK.h>
+#include "../WeSensorsSDK.h"
 
 
 /*         TIDS 2521020222501 DEVICE_ID         */
@@ -169,7 +169,12 @@ extern "C"
 
   /* Standard data out */
   int8_t TIDS_getRawTemperature(WE_sensorInterface_t* sensorInterface, int16_t *rawTemp);
+
+#ifdef WE_USE_FLOAT
   int8_t TIDS_getTemperature(WE_sensorInterface_t* sensorInterface, float *tempDegC);
+#else
+  #warning "WSEN_TIDS sensor driver: Float support is turned off by default. Define WE_USE_FLOAT to enable float support."
+#endif /* WE_USE_FLOAT */
 
 #ifdef __cplusplus
 }

@@ -19,4 +19,6 @@ extern int8_t WE_ReadReg(WE_sensorInterface_t *interface, uint8_t regAdr,
 extern int8_t WE_WriteReg(WE_sensorInterface_t *interface, uint8_t regAdr,
 			  uint16_t numBytesToWrite, uint8_t *data);
 
+extern void WE_Delay(uint32_t Delay);
+
 #endif /* WEPLATFORM_H_INCLUDED */

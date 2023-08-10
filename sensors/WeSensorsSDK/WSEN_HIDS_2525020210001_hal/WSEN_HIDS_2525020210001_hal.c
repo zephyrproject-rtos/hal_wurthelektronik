@@ -6,10 +6,10 @@
 
 /**
  * @file
- * @brief Driver file for the WSEN-HIDS sensor.
+ * @brief Driver file for the WSEN-HIDS-2525020210001 sensor.
  */
 
-#include "WSEN_HIDS_2523020210001.h"
+#include "WSEN_HIDS_2525020210001_hal.h"
 
 #include <stdio.h>
 
@@ -21,7 +21,7 @@
 static const WE_sensorInterface_t hidsDefaultSensorInterface = {
     .sensorType = WE_HIDS,
     .interfaceType = WE_i2c,
-    .options = {.i2c = {.address = HIDS_ADDRESS_I2C_0, .burstMode = 1, .slaveTransmitterMode = 0, .useRegAddrMsbForMultiBytesRead = 1, .reserved = 0},
+    .options = {.i2c = {.address = HIDS_ADDRESS_I2C_0, .burstMode = 1, .protocol = WE_i2cProtocol_RegisterBased, .useRegAddrMsbForMultiBytesRead = 1, .reserved = 0},
                 .spi = {.chipSelectPort = 0, .chipSelectPin = 0, .burstMode = 0, .reserved = 0},
                 .readTimeout = 1000,
                 .writeTimeout = 1000},
@@ -574,20 +574,21 @@ int8_t HIDS_getInterruptActiveLevel(WE_sensorInterface_t* sensorInterface, HIDS_
 
 /**
  * @brief Check if a new humidity data sample is available
+ * since upon read of HIDS_STATUS_REG register both data ready flags will be reset to '0' they shall only be read in one register access.
  * @param[in] sensorInterface Pointer to sensor interface
  * @param[out] state Is set to true if a new sample is available
  * @return Error code
  */
 int8_t HIDS_isHumidityDataAvailable(WE_sensorInterface_t* sensorInterface, HIDS_state_t *state)
 {
-  HIDS_status_t status_reg;
+  HIDS_status_t statusReg;
 
-  if (WE_FAIL == HIDS_ReadReg(sensorInterface, HIDS_STATUS_REG, 1, (uint8_t *) &status_reg))
+  if (WE_FAIL == HIDS_ReadReg(sensorInterface, HIDS_STATUS_REG, 1, (uint8_t *) &statusReg))
   {
     return WE_FAIL;
   }
 
-  *state = (HIDS_state_t) status_reg.humDataAvailable;
+  *state = (HIDS_state_t) statusReg.humDataAvailable;
 
   return WE_SUCCESS;
 }
@@ -608,6 +609,34 @@ int8_t HIDS_isTemperatureDataAvailable(WE_sensorInterface_t* sensorInterface, HI
   }
 
   *state = (HIDS_state_t) statusReg.tempDataAvailable;
+
+  return WE_SUCCESS;
+}
+
+/**
+ * @brief Check if a new temperature and humidity data sample is available
+ * @param[in] sensorInterface Pointer to sensor interface
+ * @param[out] temp_state Is set to true if a new temperature sample is available
+ * @param[out] hum_state Is set to true if a new humidity sample is available
+ * @return Error code
+ */
+int8_t HIDS_isDataAvailable(WE_sensorInterface_t* sensorInterface, HIDS_state_t *temp_state, HIDS_state_t *hum_state)
+{
+  HIDS_status_t statusReg;
+
+  if (WE_FAIL == HIDS_ReadReg(sensorInterface, HIDS_STATUS_REG, 1, (uint8_t *) &statusReg))
+  {
+    return WE_FAIL;
+  }
+
+  if(temp_state != NULL)
+  {
+	  *temp_state = (HIDS_state_t) statusReg.tempDataAvailable;
+  }
+  if(hum_state != NULL)
+  {
+  	  *hum_state = (HIDS_state_t) statusReg.humDataAvailable;
+  }
 
   return WE_SUCCESS;
 }
@@ -682,6 +711,8 @@ int8_t HIDS_getRawValues(WE_sensorInterface_t* sensorInterface, int16_t *rawHumi
 
   return WE_SUCCESS;
 }
+
+#ifdef WE_USE_FLOAT
 
 /**
  * @brief Read humidity
@@ -789,6 +820,10 @@ int8_t HIDS_convertTemperature_float(WE_sensorInterface_t* sensorInterface, int1
 
   return WE_SUCCESS;
 }
+
+#endif /* WE_USE_FLOAT */
+
+
 
 /**
  * @brief Read the humidity

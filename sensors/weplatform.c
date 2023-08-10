@@ -9,6 +9,8 @@
 #include "weplatform_i2c.h"
 #include "weplatform_spi.h"
 
+#include <zephyr/kernel.h>
+
 /**
  * @brief Read data starting from the addressed register
  * @param[in] interface Sensor interface
@@ -53,4 +55,13 @@ inline int8_t WE_WriteReg(WE_sensorInterface_t *interface, uint8_t regAdr,
 	default:
 		return WE_FAIL;
 	}
+}
+
+/**
+ * @brief Provides delay
+ * @param[in] Delay in milliseconds
+ */
+void WE_Delay(uint32_t Delay)
+{
+	k_sleep(K_MSEC(Delay));
 }

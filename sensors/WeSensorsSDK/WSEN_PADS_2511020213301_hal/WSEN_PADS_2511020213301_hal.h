@@ -6,17 +6,17 @@
 
 /**
  * @file
- * @brief Header file for the WSEN-PADS sensor driver.
+ * @brief Header file for the WSEN-PADS-2511020213301 sensor driver.
  */
 
-#ifndef _WSEN_PADS_H
-#define _WSEN_PADS_H
+#ifndef _WSEN_PADS_2511020213301_H
+#define _WSEN_PADS_2511020213301_H
 
 /*         Includes         */
 
 #include <stdint.h>
 
-#include <WeSensorsSDK.h>
+#include "../WeSensorsSDK.h"
 
 
 /*         PADS 2511020213301 DEVICE_ID         */
@@ -504,6 +504,7 @@ extern "C"
 
   int8_t PADS_isPressureDataAvailable(WE_sensorInterface_t* sensorInterface, PADS_state_t *state);
   int8_t PADS_isTemperatureDataAvailable(WE_sensorInterface_t* sensorInterface, PADS_state_t *state);
+  int8_t PADS_isDataAvailable(WE_sensorInterface_t* sensorInterface, PADS_state_t *temp_state, PADS_state_t *press_state);
 
   int8_t PADS_getRawPressure(WE_sensorInterface_t* sensorInterface, int32_t *rawPres);
   int8_t PADS_getRawTemperature(WE_sensorInterface_t* sensorInterface, int16_t *rawTemp);
@@ -523,6 +524,7 @@ extern "C"
   int32_t PADS_convertPressure_int(int32_t rawPres);
   int32_t PADS_convertDifferentialPressure_int(int32_t rawPres);
 
+#ifdef WE_USE_FLOAT
   int8_t PADS_getPressure_float(WE_sensorInterface_t* sensorInterface, float *presskPa);
   int8_t PADS_getDifferentialPressure_float(WE_sensorInterface_t* sensorInterface, float *presskPa);
   int8_t PADS_getTemperature_float(WE_sensorInterface_t* sensorInterface, float *tempDegC);
@@ -532,6 +534,9 @@ extern "C"
 
   float PADS_convertPressure_float(int32_t rawPres);
   float PADS_convertDifferentialPressure_float(int32_t rawPres);
+#else
+  #warning "WSEN_PADS sensor driver: Float support is turned off by default. Define WE_USE_FLOAT to enable float support."
+#endif /* WE_USE_FLOAT */
 
 #ifdef __cplusplus
 }
