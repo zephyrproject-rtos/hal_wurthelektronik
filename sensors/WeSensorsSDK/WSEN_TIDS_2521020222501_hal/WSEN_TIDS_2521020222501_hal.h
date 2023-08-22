@@ -155,11 +155,11 @@ extern "C"
   int8_t TIDS_isAutoIncrementEnabled(WE_sensorInterface_t* sensorInterface, TIDS_state_t *autoIncr);
 
   /* Temperature limits */
-  int8_t TIDS_setTempHighLimit(WE_sensorInterface_t* sensorInterface, uint8_t hLimit);
-  int8_t TIDS_getTempHighLimit(WE_sensorInterface_t* sensorInterface, uint8_t *hLimit);
+  int8_t TIDS_setTempHighLimit(WE_sensorInterface_t* sensorInterface, int32_t hLimit);
+  int8_t TIDS_getTempHighLimit(WE_sensorInterface_t* sensorInterface, int32_t *hLimit);
 
-  int8_t TIDS_setTempLowLimit(WE_sensorInterface_t* sensorInterface, uint8_t lLimit);
-  int8_t TIDS_getTempLowLimit(WE_sensorInterface_t* sensorInterface, uint8_t *lLimit);
+  int8_t TIDS_setTempLowLimit(WE_sensorInterface_t* sensorInterface, int32_t lLimit);
+  int8_t TIDS_getTempLowLimit(WE_sensorInterface_t* sensorInterface, int32_t *lLimit);
 
   /* Status */
   int8_t TIDS_getStatusRegister(WE_sensorInterface_t* sensorInterface, TIDS_status_t *status);
