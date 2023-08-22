@@ -330,45 +330,96 @@ int8_t TIDS_isAutoIncrementEnabled(WE_sensorInterface_t* sensorInterface, TIDS_s
 /**
  * @brief Set upper temperature limit
  * @param[in] sensorInterface Pointer to sensor interface
- * @param[in] hLimit Upper limit
+ * @param[in] hLimit Temperature upper limit in milli Celsius
  * @retval Error code
  */
-int8_t TIDS_setTempHighLimit(WE_sensorInterface_t* sensorInterface, uint8_t hLimit)
+int8_t TIDS_setTempHighLimit(WE_sensorInterface_t* sensorInterface, int32_t hLimit)
 {
-  return TIDS_WriteReg(sensorInterface, TIDS_LIMIT_T_H_REG, 1, &hLimit);
+  int32_t upperLimit = ((hLimit / (int32_t)(10 * 64)) + (int32_t)63);
+  int16_t upperLimitMod = (hLimit % (int32_t)(10 * 64)); //remainder operator sign matches the numerator
+
+  if(hLimit > 0 && upperLimitMod > 320){
+	  upperLimit += 1;
+  }else if(hLimit < 0 && -upperLimitMod > 320){
+	  upperLimit -= 1;
+  }
+
+  if(upperLimit > 255){
+	  upperLimit = 255;
+  }else if (upperLimit < 0){
+	  upperLimit = 0;
+  }
+
+  uint8_t upperLimitBits = (uint8_t)upperLimit;
+
+  return TIDS_WriteReg(sensorInterface, TIDS_LIMIT_T_H_REG, 1, &upperLimitBits);
 }
 
 /**
  * @brief Get upper temperature limit
  * @param[in] sensorInterface Pointer to sensor interface
- * @param[out] hLimit The returned temperature high limit
+ * @param[out] hLimit The returned temperature high limit in milli Celsius
  * @retval Error code
  */
-int8_t TIDS_getTempHighLimit(WE_sensorInterface_t* sensorInterface, uint8_t *hLimit)
+int8_t TIDS_getTempHighLimit(WE_sensorInterface_t* sensorInterface, int32_t *hLimit)
 {
-  return TIDS_ReadReg(sensorInterface, TIDS_LIMIT_T_H_REG, 1, hLimit);
+
+  uint8_t hlimitBits;
+
+  if(WE_FAIL == TIDS_ReadReg(sensorInterface, TIDS_LIMIT_T_H_REG, 1, &hlimitBits)){
+	    return WE_FAIL;
+  }
+
+  *hLimit = ((int32_t)hlimitBits - 63) * 64 * 10;
+
+  return WE_SUCCESS;
 }
 
 /**
  * @brief Set lower temperature limit
  * @param[in] sensorInterface Pointer to sensor interface
- * @param[in] lLimit Low limit
+ * @param[in] lLimit Temperature lower limit in milli Celsius
  * @retval Error code
  */
-int8_t TIDS_setTempLowLimit(WE_sensorInterface_t* sensorInterface, uint8_t lLimit)
+int8_t TIDS_setTempLowLimit(WE_sensorInterface_t* sensorInterface, int32_t lLimit)
 {
-  return TIDS_WriteReg(sensorInterface, TIDS_LIMIT_T_L_REG, 1, &lLimit);
+  int32_t lowerLimit = ((lLimit / (int32_t)(10 * 64)) + (int32_t)63);
+  int16_t lowerLimitMod = (lLimit % (int32_t)(10 * 64)); //remainder operator sign matches the numerator
+
+  if(lLimit > 0 && lowerLimitMod > 320){
+	  lowerLimit += 1;
+  }else if(lLimit < 0 && -lowerLimitMod > 320){
+	  lowerLimit -= 1;
+  }
+
+  if(lowerLimit > 255){
+	  lowerLimit = 255;
+  }else if (lowerLimit < 0){
+	  lowerLimit = 0;
+  }
+
+  uint8_t lowerLimitBits = (uint8_t)lowerLimit;
+
+  return TIDS_WriteReg(sensorInterface, TIDS_LIMIT_T_L_REG, 1, &lowerLimitBits);
 }
 
 /**
  * @brief Get lower temperature limit
  * @param[in] sensorInterface Pointer to sensor interface
- * @param[out] lLimit The returned temperature low limit
+ * @param[out] lLimit The returned temperature lower limit in milli Celsius
  * @retval Error code
  */
-int8_t TIDS_getTempLowLimit(WE_sensorInterface_t* sensorInterface, uint8_t *lLimit)
+int8_t TIDS_getTempLowLimit(WE_sensorInterface_t* sensorInterface, int32_t *lLimit)
 {
-  return TIDS_ReadReg(sensorInterface, TIDS_LIMIT_T_L_REG, 1, lLimit);
+  uint8_t lLimitBits;
+
+  if(WE_FAIL ==  TIDS_ReadReg(sensorInterface, TIDS_LIMIT_T_L_REG, 1, &lLimitBits)){
+	    return WE_FAIL;
+  }
+
+  *lLimit = ((int32_t)lLimitBits - 63) * 64 * 10;
+
+  return WE_SUCCESS;
 }
 
 /**
