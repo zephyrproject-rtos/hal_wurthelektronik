@@ -66,3 +66,12 @@ if(CONFIG_WSEN_TIDS_2521020222501)
     WeSensorsSDK/WSEN_TIDS_2521020222501_hal/WSEN_TIDS_2521020222501_hal.c
   )
 endif()
+
+if(CONFIG_WSEN_ISDS_2536030320001)
+  zephyr_include_directories(
+    WeSensorsSDK/WSEN_ISDS_2536030320001_hal
+  )
+  zephyr_library_sources(
+    WeSensorsSDK/WSEN_ISDS_2536030320001_hal/WSEN_ISDS_2536030320001_hal.c
+  )
+endif()
