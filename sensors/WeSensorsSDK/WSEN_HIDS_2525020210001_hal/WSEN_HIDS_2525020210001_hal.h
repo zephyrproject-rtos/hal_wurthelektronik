@@ -291,8 +291,6 @@ extern "C"
 
   int8_t HIDS_convertHumidity_float(WE_sensorInterface_t* sensorInterface, int16_t rawHumidity, float *humidity);
   int8_t HIDS_convertTemperature_float(WE_sensorInterface_t* sensorInterface, int16_t rawTemp, float *tempDegC);
-#else
-  #warning "WSEN_HIDS sensor driver: Float support is turned off by default. Define WE_USE_FLOAT to enable float support."
 #endif /* WE_USE_FLOAT */
 
   int8_t HIDS_getHumidity_int8(WE_sensorInterface_t* sensorInterface, int8_t *humidity);
