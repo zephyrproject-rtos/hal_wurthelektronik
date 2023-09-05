@@ -172,8 +172,6 @@ extern "C"
 
 #ifdef WE_USE_FLOAT
   int8_t TIDS_getTemperature(WE_sensorInterface_t* sensorInterface, float *tempDegC);
-#else
-  #warning "WSEN_TIDS sensor driver: Float support is turned off by default. Define WE_USE_FLOAT to enable float support."
 #endif /* WE_USE_FLOAT */
 
 #ifdef __cplusplus

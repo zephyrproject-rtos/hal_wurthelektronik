@@ -799,8 +799,6 @@ extern "C"
   float ITDS_convertAccelerationFs4g_float(int16_t acc);
   float ITDS_convertAccelerationFs8g_float(int16_t acc);
   float ITDS_convertAccelerationFs16g_float(int16_t acc);
-#else
-  #warning "WSEN_ITDS sensor driver: Float support is turned off by default. Define WE_USE_FLOAT to enable float support."
 #endif /* WE_USE_FLOAT */
 
   int8_t ITDS_getAccelerationX_int(WE_sensorInterface_t* sensorInterface, int16_t *xAcc);

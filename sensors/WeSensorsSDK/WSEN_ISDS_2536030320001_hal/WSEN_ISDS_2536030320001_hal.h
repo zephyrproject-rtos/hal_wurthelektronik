@@ -1231,8 +1231,6 @@ extern "C"
   int8_t ISDS_getAngularRateY_float(WE_sensorInterface_t* sensorInterface, float *yRate);
   int8_t ISDS_getAngularRateZ_float(WE_sensorInterface_t* sensorInterface, float *zRate);
   int8_t ISDS_getAngularRates_float(WE_sensorInterface_t* sensorInterface, float *xRate, float *yRate, float *zRate);
-#else
-  #warning "WSEN_ISDS sensor driver: Float support is turned off by default. Define WE_USE_FLOAT to enable float support."
 #endif /* WE_USE_FLOAT */
   int8_t ISDS_getAngularRateX_int(WE_sensorInterface_t* sensorInterface, int32_t *xRate);
   int8_t ISDS_getAngularRateY_int(WE_sensorInterface_t* sensorInterface, int32_t *yRate);
