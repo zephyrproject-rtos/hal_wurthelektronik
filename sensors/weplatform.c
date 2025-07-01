@@ -56,12 +56,3 @@ inline int8_t WE_WriteReg(WE_sensorInterface_t *interface, uint8_t regAdr,
 		return WE_FAIL;
 	}
 }
-
-/**
- * @brief Provides delay
- * @param[in] Delay in milliseconds
- */
-void WE_Delay(uint32_t Delay)
-{
-	k_sleep(K_MSEC(Delay));
-}
