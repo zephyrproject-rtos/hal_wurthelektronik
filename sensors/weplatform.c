@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#include "weplatform.h"
+#include <platform.h>
 
 #include "weplatform_i2c.h"
 #include "weplatform_spi.h"
@@ -57,6 +57,22 @@ inline int8_t WE_WriteReg(WE_sensorInterface_t *interface, uint8_t regAdr,
 	}
 }
 
+inline int8_t WE_SPITransceive(WE_sensorInterface_t* interface,
+				uint16_t numBytes,
+				uint8_t *txData,
+				uint8_t *rxData )
+{
+	switch (interface->interfaceType) {
+	case WE_spi:
+	{
+		return WE_Transceive_SPI(interface, numBytes, txData, rxData);
+	}
+	case WE_i2c:
+	default:
+		return WE_FAIL;
+	}
+}
+
 /**
  * @brief Provides delay
  * @param[in] Delay in milliseconds
@@ -64,4 +80,14 @@ inline int8_t WE_WriteReg(WE_sensorInterface_t *interface, uint8_t regAdr,
 void WE_Delay(uint32_t Delay)
 {
 	k_sleep(K_MSEC(Delay));
+}
+
+void debugPrint(char _out[])
+{
+	ARG_UNUSED(_out);
+}
+
+void debugPrintln(char _out[])
+{
+	ARG_UNUSED(_out);
 }
