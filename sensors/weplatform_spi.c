@@ -93,3 +93,47 @@ inline int8_t WE_WriteReg_SPI(WE_sensorInterface_t *interface, uint8_t regAdr,
 
 	return status == 0 ? WE_SUCCESS : WE_FAIL;
 }
+
+/**
+ * @brief Writes and reads bytes via SPI.
+ * @param[in] interface sensor interface
+ * @param[in] numBytes Number of bytes to write and read
+ * @param[in] txData Pointer to transmit data buffer
+ * @param[out] rxData Pointer to receive data buffer
+ * @retval HAL status
+ */
+inline int8_t WE_Transceive_SPI(WE_sensorInterface_t *interface,
+			     uint16_t numBytes, uint8_t *txData, uint8_t *rxData)
+{
+	int status = 0;
+
+#ifdef CONFIG_SPI
+
+	if(interface->options.spi.duplexMode == 0)
+	{
+		return WE_FAIL;
+	}
+
+	uint8_t bytesStep = interface->options.spi.burstMode ? numBytes : 1;
+
+	for (uint8_t i = 0; i < numBytes; i += bytesStep) {
+
+		const struct spi_buf tx_buf = { .buf = txData + i, .len = bytesStep };
+		const struct spi_buf_set tx_buf_set = { .buffers = &tx_buf, .count = sizeof(tx_buf)/sizeof(const struct spi_buf) };
+
+		const struct spi_buf rx_buf[] = { { .buf = rxData + i, .len = bytesStep } };
+		const struct spi_buf_set rx_buf_set = { .buffers = rx_buf, .count = sizeof(rx_buf)/sizeof(const struct spi_buf) };
+
+		status = spi_transceive_dt(interface->handle, &tx_buf_set, &rx_buf_set);
+		if (status != 0) {
+			/* Error, abort */
+			break;
+		}
+	}
+#else
+	status = -EIO;
+#endif /* CONFIG_SPI */
+
+	return status == 0 ? WE_SUCCESS : WE_FAIL;
+}
+

@@ -19,4 +19,7 @@ extern int8_t WE_ReadReg_SPI(WE_sensorInterface_t *interface, uint8_t regAdr,
 extern int8_t WE_WriteReg_SPI(WE_sensorInterface_t *interface, uint8_t regAdr,
 			      uint16_t numBytesToWrite, uint8_t *data);
 
+extern int8_t WE_Transceive_SPI(WE_sensorInterface_t *interface,
+			     uint16_t numBytes, uint8_t *txData, uint8_t *rxData);
+
 #endif /* WEPLATFORM_SPI_H_INCLUDED */

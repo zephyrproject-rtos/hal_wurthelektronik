@@ -3,7 +3,7 @@
 
 zephyr_include_directories(
   .
-  WeSensorsSDK
+  SensorsSDK
 )
 
 zephyr_library_sources(
@@ -14,64 +14,84 @@ zephyr_library_sources(
 
 if(CONFIG_WSEN_HIDS_2525020210001)
   zephyr_include_directories(
-    WeSensorsSDK/WSEN_HIDS_2525020210001_hal
+    SensorsSDK/WSEN_HIDS_2525020210001
   )
   zephyr_library_sources(
-    WeSensorsSDK/WSEN_HIDS_2525020210001_hal/WSEN_HIDS_2525020210001_hal.c
+    SensorsSDK/WSEN_HIDS_2525020210001/WSEN_HIDS_2525020210001.c
   )
 endif()
 
 
 if(CONFIG_WSEN_HIDS_2525020210002)
   zephyr_include_directories(
-    WeSensorsSDK/WSEN_HIDS_2525020210002_hal
+    SensorsSDK/WSEN_HIDS_2525020210002
   )
   zephyr_library_sources(
-    WeSensorsSDK/WSEN_HIDS_2525020210002_hal/WSEN_HIDS_2525020210002_hal.c
+    SensorsSDK/WSEN_HIDS_2525020210002/WSEN_HIDS_2525020210002.c
   )
 endif()
 
 if(CONFIG_WSEN_ITDS_2533020201601)
   zephyr_include_directories(
-    WeSensorsSDK/WSEN_ITDS_2533020201601_hal
+    SensorsSDK/WSEN_ITDS_2533020201601
   )
   zephyr_library_sources(
-    WeSensorsSDK/WSEN_ITDS_2533020201601_hal/WSEN_ITDS_2533020201601_hal.c
+    SensorsSDK/WSEN_ITDS_2533020201601/WSEN_ITDS_2533020201601.c
   )
 endif()
 
 if(CONFIG_WSEN_PADS_2511020213301)
   zephyr_include_directories(
-    WeSensorsSDK/WSEN_PADS_2511020213301_hal
+    SensorsSDK/WSEN_PADS_2511020213301
   )
   zephyr_library_sources(
-    WeSensorsSDK/WSEN_PADS_2511020213301_hal/WSEN_PADS_2511020213301_hal.c
+    SensorsSDK/WSEN_PADS_2511020213301/WSEN_PADS_2511020213301.c
   )
 endif()
 
 if(CONFIG_WSEN_PDUS_25131308XXXXX)
   zephyr_include_directories(
-    WeSensorsSDK/WSEN_PDUS_25131308XXX01_hal
+    SensorsSDK/WSEN_PDUS_25131308XXX01
   )
   zephyr_library_sources(
-    WeSensorsSDK/WSEN_PDUS_25131308XXX01_hal/WSEN_PDUS_25131308XXX01_hal.c
+    SensorsSDK/WSEN_PDUS_25131308XXX01/WSEN_PDUS_25131308XXX01.c
   )
 endif()
 
 if(CONFIG_WSEN_TIDS_2521020222501)
   zephyr_include_directories(
-    WeSensorsSDK/WSEN_TIDS_2521020222501_hal
+    SensorsSDK/WSEN_TIDS_2521020222501
   )
   zephyr_library_sources(
-    WeSensorsSDK/WSEN_TIDS_2521020222501_hal/WSEN_TIDS_2521020222501_hal.c
+    SensorsSDK/WSEN_TIDS_2521020222501/WSEN_TIDS_2521020222501.c
   )
 endif()
 
 if(CONFIG_WSEN_ISDS_2536030320001)
   zephyr_include_directories(
-    WeSensorsSDK/WSEN_ISDS_2536030320001_hal
+    SensorsSDK/WSEN_ISDS_2536030320001
   )
   zephyr_library_sources(
-    WeSensorsSDK/WSEN_ISDS_2536030320001_hal/WSEN_ISDS_2536030320001_hal.c
+    SensorsSDK/WSEN_ISDS_2536030320001/WSEN_ISDS_2536030320001.c
+  )
+endif()
+
+
+if(CONFIG_WSEN_GCDS_2526101040301)
+  zephyr_include_directories(
+    SensorsSDK/WSEN_GCDS_2526101040301
+  )
+  zephyr_library_sources(
+    SensorsSDK/WSEN_GCDS_2526101040301/WSEN_GCDS_2526101040301.c
+  )
+endif()
+
+
+if(CONFIG_WSEN_PDMS_25131308XXX05)
+  zephyr_include_directories(
+    SensorsSDK/WSEN_PDMS_25131308XXX05
+  )
+  zephyr_library_sources(
+    SensorsSDK/WSEN_PDMS_25131308XXX05/WSEN_PDMS_25131308XXX05.c
   )
 endif()
