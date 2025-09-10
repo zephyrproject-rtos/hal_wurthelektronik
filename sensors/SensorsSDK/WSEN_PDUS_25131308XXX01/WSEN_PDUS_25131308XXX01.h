@@ -84,8 +84,6 @@ extern "C"
     int8_t PDUS_getPressureAndTemperature_float(WE_sensorInterface_t* sensorInterface, PDUS_SensorType_t type, float* presskPa, float* tempDegC);
 
     int8_t PDUS_convertPressureToFloat(PDUS_SensorType_t type, uint16_t rawPressure, float* presskPa);
-#else
-#warning "WSEN_PDUS sensor driver: Float support is turned off by default. Define WE_USE_FLOAT to enable float support."
 #endif // WE_USE_FLOAT
 
 #ifdef __cplusplus
