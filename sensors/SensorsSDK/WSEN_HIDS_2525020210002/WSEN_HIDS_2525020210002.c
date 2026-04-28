@@ -157,6 +157,22 @@ int8_t HIDS_Sensor_Measure_Raw(WE_sensorInterface_t* sensorInterface, hids_measu
         return WE_FAIL;
     }
 
+    switch(measureCmd) {
+	case HIDS_HEATER_200_MW_01_S:
+	case HIDS_HEATER_110_MW_01_S:
+	case HIDS_HEATER_20_MW_01_S:
+		WE_Delay(1000);
+		break;
+	case HIDS_HEATER_200_MW_100_MS:
+	case HIDS_HEATER_110_MW_100_MS:
+	case HIDS_HEATER_20_MW_100_MS:
+		WE_Delay(100);
+		break;
+	default:
+		break;
+	}
+
+
     uint8_t dataBytes[6] = {0};
     int8_t status = WE_FAIL;
     uint16_t t_ticks = 0;
